@@ -6,5 +6,5 @@ const server = http.createServer((request, response) => {
 })
 
 server.listen(3000, () => {
-  console.log('🚀 服务启动');
+    console.log('🚀 服务启动');
 })
