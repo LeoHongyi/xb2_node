@@ -23,8 +23,22 @@ export const defaultErrorHanlder = (
   next: NextFunction
 ) => {
   let statusCode: number, message: string;
-
+  if (error.message) {
+    console.log('🙅‍♂️', error.message)
+  }
   switch (error.message) {
+    case 'NAME_IS_REQUIRED':
+      statusCode = 400;
+      message = '请提供用户名';
+      break;
+    case 'PASSWORD_IS_REQUIRED':
+      statusCode = 400;
+      message = '请提供密码';
+      break;
+    case 'USER_ALREADY_EXIST':
+      statusCode = 409;
+      message = '用户名已被占用';
+      break;
     default:
       statusCode = 500
       message = '服务器暂时出了点问题 ~~ 🌲';

@@ -1,5 +1,6 @@
 import express from 'express';
 import postRouter from '../post/post.router';
+import userRouter from '../user/user.router';
 import { defaultErrorHanlder } from './app.middleware';
 
 const app = express();
@@ -12,7 +13,7 @@ app.use(express.json());
 /**
  * 路由
  */
-app.use(postRouter);
+app.use(postRouter, userRouter);
 
 /**
  * 默认异常处理器
