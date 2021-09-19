@@ -12,10 +12,13 @@ export const createUser = async (user: UserModel) => {
   return data;
 }
 
+interface GetUserOptions {
+  password?: boolean;
+}
 /**
  * 按用户名查找用户
  */
-export const getUserName = async (name: string) => {
+export const getUserName = async (name: string, options: GetUserOptions = {}) => {
   const statement = `
     SELECT id, name
     FROM user
