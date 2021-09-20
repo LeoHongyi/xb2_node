@@ -19,8 +19,12 @@ interface GetUserOptions {
  * 按用户名查找用户
  */
 export const getUserName = async (name: string, options: GetUserOptions = {}) => {
+  const { password } = options;
   const statement = `
-    SELECT id, name
+    SELECT
+      id,
+      name
+      ${password ? ', password': ''}
     FROM user
     WHERE name = ?
   `;
