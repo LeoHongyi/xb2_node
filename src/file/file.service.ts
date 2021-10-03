@@ -1,3 +1,5 @@
+import path from 'path';
+import Jimp from 'jimp';
 import { connection } from "../app/database/mysql";
 import { FileModel } from './file.model';
 
@@ -31,4 +33,34 @@ export const findFileById = async (fileId: number) => {
   const [data] = await connection.promise().query(statement, fileId);
   return data[0];
 
+}
+
+export const imageResizer = async (image: Jimp, file: Express.Multer.File) => {
+  const { imageSize } = image['_exif'];
+
+  const filePath = path.join(file.destination, 'resized', file.fieldname);
+
+  // 大尺寸
+  if (imageSize.width > 1280) {
+    image
+      .resize(1280, Jimp.AUTO)
+      .quality(85)
+      .write(`${filePath}-large`);
+  }
+
+  // 中等尺寸
+  if (imageSize.width > 640) {
+    image
+      .resize(640, Jimp.AUTO)
+      .quality(85)
+      .write(`${filePath}-medium`);
+  }
+
+  // 缩略图
+  if (imageSize.width > 320) {
+    image
+      .resize(320, Jimp.AUTO)
+      .quality(85)
+      .write(`${filePath}-thumbnail`);
+  }
 }
