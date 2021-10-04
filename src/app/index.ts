@@ -6,6 +6,7 @@ import fileRouter from '../file/file.router';
 import tagRouter from '../tag/tag.router';
 import avatarRouter from '../avatar/avatar.router';
 import commentRouter from '../comment/comment.router';
+import likeRouter from '../like/like.router';
 import { defaultErrorHanlder } from './app.middleware';
 
 const app = express();
@@ -18,7 +19,7 @@ app.use(express.json());
 /**
  * 路由
  */
-app.use(postRouter, userRouter, authRouter, fileRouter, tagRouter, commentRouter, avatarRouter);
+app.use(postRouter, userRouter, authRouter, fileRouter, tagRouter, commentRouter, avatarRouter, likeRouter);
 
 /**
  * 默认异常处理器
