@@ -73,7 +73,7 @@ export const accessControl = (options: AccessControlOptions) => {
       try {
         const ownResource = await possess({ resourceId, resourceType, userId });
 
-        if (ownResource) {
+        if (!ownResource) {
           return next(new Error('USER_DOES_NOT_OWN_RESOURCE'));
         }
       } catch (error) {
