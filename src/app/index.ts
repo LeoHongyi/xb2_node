@@ -4,6 +4,7 @@ import userRouter from '../user/user.router';
 import authRouter from '../auth/auth.router';
 import fileRouter from '../file/file.router';
 import tagRouter from '../tag/tag.router';
+import avatarRouter from '../avatar/avatar.router';
 import commentRouter from '../comment/comment.router';
 import { defaultErrorHanlder } from './app.middleware';
 
@@ -17,7 +18,7 @@ app.use(express.json());
 /**
  * 路由
  */
-app.use(postRouter, userRouter, authRouter, fileRouter, tagRouter, commentRouter);
+app.use(postRouter, userRouter, authRouter, fileRouter, tagRouter, commentRouter, avatarRouter);
 
 /**
  * 默认异常处理器
