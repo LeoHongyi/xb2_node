@@ -1,6 +1,7 @@
 import { TokenPayload } from "src/auth/auth.interface";
 import {
   GetPostsOptionsFilter,
+  GetPostsOptionsPagination
 } from '../src/post/post.service';
 
 declare global {
@@ -9,7 +10,8 @@ declare global {
       user: TokenPayload;
       fileMetaData: { width?: number; height?: number; metadata?: {}}
       sort: string;
-      filter: GetPostsOptionsFilter
+      filter: GetPostsOptionsFilter;
+      pagination: GetPostsOptionsPagination;
     }
   }
 }

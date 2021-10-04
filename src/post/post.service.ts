@@ -11,17 +11,25 @@ interface GetPostsOptions {
   sort?: string;
   filter?: GetPostsOptionsFilter;
 }
+
+export interface GetPostsOptionsPagination {
+  limit: number;
+  offset: number;
+}
+
 interface GetPostsOptions {
   sort?: string;
+  filter?: GetPostsOptionsFilter;
+  pagination?: GetPostsOptionsPagination;
 }
 /**
  * 获取内容列表
  */
 export const getPosts = async (options: GetPostsOptions) => {
 
-  const { sort, filter } = options;
+  const { sort, filter, pagination: { limit, offset } } = options;
   //SQL参数
-  let params: Array<any> = [];
+  let params: Array<any> = [limit, offset];
 
  if (filter.param) {
     params = [filter.param, ...params];
@@ -43,6 +51,8 @@ export const getPosts = async (options: GetPostsOptions) => {
     WHERE ${filter.sql}
     GROUP BY post.id
     ORDER BY ${sort}
+    LIMIT ?
+    OFFSET ?
   `;
 
   const [data] = await connection.promise().query(statement, params);
@@ -132,3 +142,28 @@ export const deletePostTag = async (postId: number, tagId: number) => {
   const [data] = await connection.promise().query(statement, [postId, tagId]);
   return data;
 }
+
+/**
+ * 统计内容数量
+ */
+export const getPostsTotalCount = async (
+ options: GetPostsOptions
+) => {
+  const { filter } = options;
+
+  let params = [filter.param];
+
+  const statement = `
+    SELECT
+      COUNT(DISTINCT post.id) AS total
+    FROM post
+    ${sqlFragment.leftJoinUser}
+    ${sqlFragment.leftJoinOneFile}
+    ${sqlFragment.leftJoinTag}
+    WHERE ${filter.sql}
+  `;
+
+  const [data] = await connection.promise().query(statement, params);
+
+  return data[0].total;
+};
